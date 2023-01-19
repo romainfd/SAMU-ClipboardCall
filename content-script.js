@@ -1,13 +1,39 @@
 console.debug('[SI-SAMU extension] Extension loading...');
 
-// Print the copied number from clipboard
-async function printSelection() {
-    console.debug(await navigator.clipboard.readText());
+async function call(number) {
+    // Type in number
+    const phoneNumberInput = document.querySelector('input[name="phoneNumber"]');
+    phoneNumberInput.value = number;
+    // Trigger phone number reformat / confirmation
+    phoneNumberInput.dispatchEvent(new Event('input'));
+    // Call
+    document.querySelector('span[data-tnr="clavier-appeler"]').click()
+}
+
+async function clipboardCall() {
+    // Collect value from clipboard
+    const number = await navigator.clipboard.readText();
+    console.debug(number);
+    // Validate correct number
+    const numberFormat = new RegExp('^([#\+\*]|37000|00+)?[0-9]{2,15}$')
+    if (numberFormat.test(number)) {
+        await call(number);
+    } else {
+        const shortClipboardValue = number.length < 20 ? number : number.substring(0, 17) + '...';
+        alert("Pour appeler depuis le presse-papier, veuillez copier un n° de téléphone valide.\n" +
+              "'" + shortClipboardValue + "' ne correspond pas à une valeur compatible.");
+    }
 }
 
 waitForElm('button[data-tnr="bandeau-nouvel-appel"]').then((newCallElem) => {
     console.debug('[SI-SAMU extension] Extension initializing...');
 
+    // Clean old state for extension reload to be effective
+    if (document.getElementById('clipboardCall')) {
+        document.getElementById('clipboardCall').remove();
+    }
+
+    // Add clipboard call icon
     newCallElem.insertAdjacentHTML(
         "beforebegin",
         `<div id='clipboardCall'>   
@@ -15,8 +41,8 @@ waitForElm('button[data-tnr="bandeau-nouvel-appel"]').then((newCallElem) => {
         </div>`
     )
 
-    // Add copySelection() as a listener to mouseup events.
-    document.getElementById('clipboardCall').addEventListener("click", printSelection);
+    // Add listener to clipboard call click
+    document.getElementById('clipboardCall').addEventListener("click", clipboardCall);
 
     console.debug('[SI-SAMU extension] Extension initialized.');
 });
