@@ -1,0 +1,16 @@
+#clipboardCall {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #188ff3;
+    /* Ref.: https://fontawesome.com/docs/web/style/size#relative-sizing */
+    /* + 0.5em to have a nice circle around it */
+    width: 1.75em;
+    height: 1.75em;
+    border-radius: 50%;
+    /* To center icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
