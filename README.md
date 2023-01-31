@@ -19,5 +19,5 @@ Cette extension vous permet d'appeler un numéro copié dans le presse-papier en
 ## Development
 ### Building
 ```
-web-ext build -i sign.sh --overwrite-dest
+./sign.sh
 ```

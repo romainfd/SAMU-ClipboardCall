@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "[SI-SAMU] Appel du presse-papier",
     "description": "Permet d'appeler en un clic un numéro qui a été copié dans le presse-papier.",
-    "version": "1.1",
+    "version": "1.2",
     "homepage_url": "https://esante.gouv.fr/si-samu",
 
     "icons": {
