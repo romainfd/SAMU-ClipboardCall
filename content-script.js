@@ -12,7 +12,9 @@ async function call(number) {
 
 async function clipboardCall() {
     // Collect value from clipboard
-    const number = await navigator.clipboard.readText();
+    let number = await navigator.clipboard.readText();
+    // Remove whitespaces in number (otherwise would fail regexp correct number validation)
+    number = number.replace(/ /g,'');
     console.debug(number);
     // Validate correct number
     const numberFormat = new RegExp('^([#\+\*]|37000|00+)?[0-9]{2,15}$')
