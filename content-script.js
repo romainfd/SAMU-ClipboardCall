@@ -12,16 +12,17 @@ async function call(number) {
 
 async function clipboardCall() {
     // Collect value from clipboard
-    let number = await navigator.clipboard.readText();
-    // Remove whitespaces in number (otherwise would fail regexp correct number validation)
-    number = number.replace(/ /g,'');
-    console.debug(number);
+    let text = await navigator.clipboard.readText();
+    // Remove whitespaces and dots in number (otherwise would fail regexp correct number validation)
+    let number = text.replace(/ /g,'')
+                     .replace(/\./g,'');
+    console.debug({text, number});
     // Validate correct number
     const numberFormat = new RegExp('^([#\+\*]|37000|00+)?[0-9]{2,15}$')
     if (numberFormat.test(number)) {
         await call(number);
     } else {
-        const shortClipboardValue = number.length < 20 ? number : number.substring(0, 17) + '...';
+        const shortClipboardValue = text.length < 20 ? text : text.substring(0, 17) + '...';
         alert("Pour appeler depuis le presse-papier, veuillez copier un n° de téléphone valide.\n" +
               "'" + shortClipboardValue + "' ne correspond pas à une valeur compatible.");
     }
